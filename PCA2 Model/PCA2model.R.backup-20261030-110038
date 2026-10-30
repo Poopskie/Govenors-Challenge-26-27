@@ -1,0 +1,143 @@
+## =====================================================================
+## PCA2 model — data pull (fixed + debugged)
+## Run from inside your "PCA2 Model" RStudio project
+## =====================================================================
+
+## 0. Packages ----------------------------------------------------------
+# install.packages(c("tidyverse", "cansim", "lubridate", "readxl"))
+library(tidyverse); library(cansim); library(lubridate); library(readxl)
+
+## =====================================================================
+## 1. Bank of Canada Valet: CPI-trim / CPI-median  (VERIFIED WORKING)
+## =====================================================================
+## WHY THE OLD CODE FAILED:
+##   read.csv(url) |> mutate(d = as.Date(d)) |> rename(v = 2)
+## (a) The Valet CSV columns are called `date` and `CPI_TRIM`, so
+##     `mutate(d = as.Date(d))` errors: object 'd' not found.
+## (b) `rename(v = 2)` errors because dplyr::rename() needs the OLD
+##     column NAME on the right-hand side, not a position number.
+## FIX: set both names directly with names(df) <- c("d","v"). No tidyverse
+## gymnastics needed.
+
+valet <- function(series, start = "1997-01-01") {
+  url <- paste0("https://www.bankofcanada.ca/valet/observations/", series,
+                "/csv?start_date=", start)
+  df <- read.csv(url, stringsAsFactors = FALSE)
+  names(df) <- c("d", "v")          # date, value
+  tibble(d = as.Date(df$d), v = as.numeric(df$v))
+}
+
+trim   <- valet("CPI_TRIM")         # monthly y/y core inflation, target
+cpi_md <- valet("CPI_MEDIAN")      # alternative target
+
+## =====================================================================
+## 2. StatCan: exact series, pulled by vector ID  (ALL VERIFIED)
+## =====================================================================
+## get_cansim_vector() downloads ONLY these series, which is much faster
+## than pulling whole tables (the LFS wage table is a ~190 MB download).
+
+vectors <- c(
+  cpi_all   = "v41690973",    # CPI All-items, 2002=100, monthly
+  cpi_food  = "v41690974",    # CPI Food
+  cpi_store = "v41690975",    # CPI Food purchased from stores
+  cpi_gas   = "v41691136",    # CPI Gasoline
+  ippi      = "v1230995983",  # IPPI total, monthly since 1956
+  rmpi      = "v1230998135",  # RMPI total, monthly since 1981
+  rmpi_oil  = "v1230998136",  # RMPI crude energy products (oil channel)
+  wage      = "v2132579"      # Avg hourly wage, all employees, 15+, monthly
+)
+
+sc <- get_cansim_vector(vectors, start_time = "1997-01")
+
+# the value column is `val_norm` in current cansim versions; be defensive
+vcol <- intersect(c("val_norm", "VALUE"), names(sc))[1]
+
+can <- sc |>
+  transmute(
+    m    = as.Date(paste0(REF_DATE, "-01")),
+    name = names(vectors)[match(VECTOR, vectors)],
+    v    = .data[[vcol]]
+  ) |>
+  pivot_wider(names_from = name, values_from = v)
+
+## =====================================================================
+## 3. Local files you already downloaded (robust readers)
+## =====================================================================
+## NOTE: your "CPI6months.csv", "rawmat6months.csv" etc. only contain the
+## last ~6 months. That is nowhere near enough: PCA loadings must be
+## estimated on 2000-2019. Sections 1-2 replace those files entirely.
+
+## Brent from FRED (DCOILBRENTEU.csv) — FRED CSVs have metadata lines
+## before the real header, so find the DATE row first.
+read_fred <- function(path) {
+  lines <- readLines(path)
+  hdr   <- grep("^DATE,", lines)[1]
+  read.csv(path, skip = hdr - 1, stringsAsFactors = FALSE)
+}
+brent_m <- read_fred("DCOILBRENTEU.csv") |>
+  transmute(m = as.Date(DATE), brent = DCOILBRENTEU)
+
+## NRCan weekly diesel (xlsx) — open it once to check the sheet layout,
+## then adjust the range if needed:
+# diesel_raw <- read_excel("Weekly Average Retail Prices for Regular Unleaded Gasoline...xlsx")
+# summary(diesel_raw)
+
+## =====================================================================
+## 4. Quarterly panel with y/y growth
+## =====================================================================
+monthly <- can |>
+  full_join(brent_m, by = "m") |>
+  full_join(trim |> rename(trim = v) |> mutate(m = d), by = "m") |>
+  arrange(m) |>
+  filter(!is.na(m))
+
+to_q <- function(df) {
+  df |>
+    mutate(q = floor_date(m, "quarter")) |>
+    group_by(q) |>
+    summarise(across(-m, mean, na.rm = TRUE), .groups = "drop")
+}
+Q <- to_q(monthly)
+
+# y/y percent for price and wage series (index or $ levels -> growth)
+Q <- Q |>
+  mutate(across(c(cpi_all, cpi_food, cpi_store, cpi_gas,
+                  ippi, rmpi, rmpi_oil, wage, brent),
+                ~ 100 * (. / lag(., 4) - 1), .names = "{.col}_yy"))
+
+X <- Q |>
+  select(q, trim,
+         ippi_yy, rmpi_yy, rmpi_oil_yy,      # cost pipeline
+         cpi_food_yy, cpi_gas_yy,            # prices
+         wage_yy)                            # wages
+# add CSCE / BOS expectations later (they start 2014 / 1997)
+
+## =====================================================================
+## 5. PCA on the 2000-2019 training window (base version)
+## =====================================================================
+train <- X |> filter(year(q) %in% 2000:2019) |> select(-q, -trim) |> drop_na()
+
+mu <- colMeans(train); s <- apply(train, 2, sd)
+Z  <- scale(train, mu, s)
+pc <- prcomp(Z)
+
+round(pc$rotation[, 1], 3)                   # loadings: all same sign?
+round(100 * summary(pc)$importance[2, 1])    # % variance explained by PC1
+
+# project over the full sample (use complete rows for now)
+full <- X |> drop_na() |> mutate(PC1 = as.numeric(
+  scale(as.matrix(select(., -q, -trim)) %*% pc$rotation[, 1])))
+
+## =====================================================================
+## 6. Base forecast regression + plot
+## =====================================================================
+m1 <- lm(lead(trim, 1) ~ PC1 + trim, data = full)
+summary(m1)
+
+full |>
+  ggplot(aes(q, PC1)) +
+  geom_line() +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +
+  labs(title = "Second-round inflation pressure index (PC1)",
+       subtitle = paste0("PC1 variance explained: ",
+                         round(100 * summary(pc)$importance[2, 1]), "%"))

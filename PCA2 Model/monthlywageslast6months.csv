@@ -1,0 +1,58 @@
+﻿"Employee wages by industry, monthly, unadjusted for seasonality 1 2"
+"Frequency: Monthly"
+"Table: 14-10-0063-01 (formerly CANSIM 282-0071)"
+"Release date: 2026-10-09"
+"Geography: Canada, Province or territory"
+""
+""
+
+"Geography 3","Canada",,,,
+"Wages 4","Average hourly wage rate",,,,
+"Type of work","Both full- and part-time employees",,,,
+"Gender 5 6","Total - Gender",,,,
+"Age group","15 years and over",,,,
+"North American Industry Classification System (NAICS) 7","May 2026","June 2026","July 2026","August 2026","September 2026"
+,"Current dollars",,,,
+"Total employees, all industries 8","37.24","37.20","37.17","37.02","37.64"
+"Goods-producing sector 9","38.93","38.97","38.79","38.51","38.73"
+"Agriculture 10","26.53","25.96","26.61","26.35","26.21"
+"Forestry, fishing, mining, quarrying, oil and gas 11 12","52.48","52.40","53.22","52.13","53.25"
+"Utilities","54.57","56.35","55.43","55.41","55.01"
+"Construction","38.19","38.35","38.24","38.27","38.64"
+"Manufacturing","36.38","36.28","35.96","35.73","35.78"
+"Services-producing sector 13","36.82","36.76","36.76","36.64","37.36"
+"Wholesale and retail trade","28.70","28.93","28.67","28.23","28.60"
+"Transportation and warehousing","34.37","34.20","35.01","34.64","34.85"
+"Finance, insurance, real estate, rental and leasing","46.30","46.40","47.11","46.68","46.62"
+"Professional, scientific and technical services","49.52","50.59","50.04","49.48","50.74"
+"Business, building and other support services 14","28.03","27.97","27.98","28.52","28.28"
+"Educational services","42.70","42.58","44.10","44.59","44.34"
+"Health care and social assistance","35.48","35.50","35.55","35.64","35.94"
+"Information, culture and recreation","34.81","33.44","32.89","33.43","36.48"
+"Accommodation and food services","21.53","21.54","21.58","21.47","21.80"
+"Other services (except public administration)","32.21","32.21","32.64","32.17","31.99"
+"Public administration","48.03","47.00","47.05","47.08","48.39"
+
+
+
+
+Footnotes:
+1,"To ensure respondent confidentiality, estimates below a certain threshold are suppressed. For Canada, Quebec, Ontario, Alberta and British Columbia suppression is applied to all data below 1,500. The threshold level for Newfoundland and Labrador, Nova Scotia, New Brunswick, Manitoba and Saskatchewan is 500, while in Prince Edward Island, estimates under 200 are suppressed. For census metropolitan areas (CMAs) and economic regions (ERs), use their respective provincial suppression levels mentioned above. Estimates are based on smaller sample sizes the more detailed the table becomes, which could result in lower data quality."
+2,"Starting in 2006, enhancements to the Labour Force Survey data processing system may have introduced a level shift in some estimates, particularly for less common labour force characteristics. Use caution when comparing estimates before and after 2006. For more information, contact statcan.labour-travail.statcan@statcan.gc.ca"
+3,"Excluding the territories."
+4,"Beginning January 1997, information is collected on the usual wages or salary of employees at their main job. Respondents are asked to report their wage/salary before taxes and other deductions, and include tips, commissions and bonuses. Weekly and hourly wages/salaries are calculated in conjunction with usual paid work hours per week. Starting in 2006, enhancements to the Labour Force Survey processing system have introduced a level shift in average and median wages. Use caution when comparing estimates before and after 2006. For more information, contact statcan.labour-travail.statcan@statcan.gc.ca"
+5,"Gender refers to an individual's personal and social identity as a man, woman or non-binary person (a person who is not exclusively a man or a woman). Some people may not identify with a specific gender and a person's gender may change over time. Gender includes the following concepts: gender identity, which refers to the gender that a person feels internally and individually; gender expression, which refers to the way a person presents their gender, regardless of their gender identity, through body language, aesthetic choices or accessories (for example, clothes, hairstyle and makeup), which may have traditionally been associated with a specific gender. A person's gender may differ from their sex at birth, and from what is indicated on their current identification or legal documents such as their birth certificate, passport or driver's license. LFS started collecting gender of person in 2022. Prior to 2022, LFS only collected information on sex of person (male or female), as declared by the respondent or recorded by the interviewer. The sex variable prior to 2022 and the two-category gender variable since 2022 are combined in this table. Although sex and gender refer to two different concepts, the introduction of gender is not expected to have a significant impact on data analysis and historical comparability, given the small size of the transgender and non-binary populations."
+6,"Given that the non-binary population is small, data aggregation to a two-category gender variable is necessary to protect the confidentiality of responses provided. Individuals in the category "non-binary persons" are distributed into the other two gender categories and are denoted by the "+" symbol. The category "Men+" includes men, as well as some non-binary persons, while the category "Women+" includes women, as well as some non-binary persons."
+7,"Industry refers to the general nature of the business carried out by the employer for whom the respondent works (main job only). Industry estimates in this table are based on the 2022 North American Industry Classification System (NAICS)."
+8,"This combines the North American Industry Classification System (NAICS) codes 11 to 91."
+9,"This combines the North American Industry Classification System (NAICS) codes 11 to 33."
+10,"Labour Force Survey (LFS) North American Industry Classification System (NAICS) code exception: add group 1100 - Farming - not elsewhere classified (nec). When the type of farm activity cannot be distinguished between crop and livestock, (example: mixed farming)."
+11,"Labour Force Survey (LFS) North American Industry Classification System (NAICS) code exception: add group 2100 - Mining - not elsewhere classified (nec). Whenever the type of mining activity cannot be distinguished."
+12,"Also referred to as Natural resources."
+13,"This combines the North American Industry Classification System (NAICS) codes 41 to 91."
+14,"Formerly "Management of companies and administrative and other support services"."
+
+
+
+"How to cite: Statistics Canada. Table 14-10-0063-01  Employee wages by industry, monthly, unadjusted for seasonality"
+https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410006301

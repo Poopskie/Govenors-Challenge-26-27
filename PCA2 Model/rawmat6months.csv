@@ -1,0 +1,33 @@
+﻿"Raw materials price index, monthly 1 2 3 4"
+"Frequency: Monthly"
+"Table: 18-10-0268-01"
+"Release date: 2026-10-22"
+"Geography: Canada"
+""
+""
+
+"Geography","Canada",,,,
+"North American Product Classification System (NAPCS)","May 2026","June 2026","July 2026","August 2026","September 2026"
+,"Index, 202001=100",,,,
+"Total, Raw materials price indexes (RMPI)","184.9","172.6","168.8","174.3","182.7"
+"Crude energy products  [M51]","178.9","154.4","148.9","159.5","182.5"
+"Total, excluding crude energy products","189.1","184.6","181.8","184.0","183.2"
+"Crop products  [M11]","136.1","135.0","141.1","140.1","143.0"
+"Animals and animal products  [M21]","161.9","163.3","165.0","159.4","157.6"
+"Non-metallic minerals  [M31]","157.2","156.7","157.1","155.5","152.1"
+"Logs, pulpwood, natural rubber and other forestry products  [M41]","121.1","123.2","126.7","125.9","125.4"
+"Metal ores, concentrates and scrap  [M61]","245.1","234.0","223.3","232.7","231.1"
+
+
+
+
+Footnotes:
+1,"This monthly table replaces table 18-10-0034 which has been archived. This table contains monthly data starting from January 1981."
+2,"On November 30, 2020, additional series are available upon request."
+3,"On February 28, 2022, select 6-digit North American Product Classification System (NAPCS) indexes have been added to this table. Additional series continue to be available upon request."
+4,"On September 20, 2024, the Raw Materials Price Index basket was updated to reflect 2019 production values. The new basket was linked to the previous basket at the July 2024 reference period, so movements up to this period reflect previous baskets, while movements for August 2024 onwards reflect the new basket. The index was also updated to reflect the North American Product Classification System (NAPCS) 2022 Version 1.0. For more information, please refer to our <a href="https://www.statcan.gc.ca/en/subjects/standard/napcs/2022/index" rel="external noopener noreferrer" target="_blank">website (opens new window)</a>."
+
+
+
+"How to cite: Statistics Canada. Table 18-10-0268-01  Raw materials price index, monthly"
+https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810026801
